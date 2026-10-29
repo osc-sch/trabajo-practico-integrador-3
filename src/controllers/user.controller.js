@@ -1,7 +1,6 @@
 import { matchedData } from "express-validator";
 import { UserModel } from "../models/user.model.js";
 import { hashPassword } from "../helpers/bcrypt.helper.js";
-import { flatten } from "flat";
 
 export const createUser = async (req, res) => {
   try {
@@ -56,11 +55,16 @@ export const updateUser = async (req, res) => {
     const { id } = matchedData(req, { locations: ["params"] });
     const dataValida = matchedData(req, { locations: ["body"] });
 
-    const flattenedData = flatten(dataValida);
+    const userExist = await UserModel.findOne({ _id: id });
+
+    const newProfile = {
+      ...userExist.profile,
+      ...dataValida.profile,
+    };
 
     const userUpdated = await UserModel.findByIdAndUpdate(
       { _id: id },
-      { $set: { ...flattenedData } },
+      { $set: { ...dataValida, profile: newProfile } },
       { returnDocument: "after" },
     );
 
