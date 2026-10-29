@@ -4,7 +4,7 @@ export const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
 
-    // await mongoose.connectiion.dropDatabase();
+    // await mongoose.connection.dropDatabase();
 
     console.log("Conexion exitosa");
   } catch (error) {
