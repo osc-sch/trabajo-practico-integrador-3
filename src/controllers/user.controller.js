@@ -64,7 +64,7 @@ export const updateUser = async (req, res) => {
 
     const userUpdated = await UserModel.findByIdAndUpdate(
       { _id: id },
-      { $set: { ...dataValida, profile: newProfile } },
+      { $set: { profile: newProfile } },
       { returnDocument: "after" },
     );
 

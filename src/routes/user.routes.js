@@ -12,11 +12,34 @@ import {
   deleteUserValidations,
   updateUserValidations,
 } from "../middlewares/validations/user.validations.js";
+import { adminMiddleware } from "../middlewares/admin.middleware.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 export const userRouter = Router();
 
-userRouter.get("/users", getAllUsers);
-userRouter.get("/users/:id", getAllById);
-userRouter.post("/users", createUserValidations, validate, createUser);
-userRouter.put("/users/:id", updateUserValidations, validate, updateUser);
-userRouter.delete("/users/:id", deleteUserValidations, validate, deletUser);
+userRouter.get("/users", authMiddleware, adminMiddleware, getAllUsers);
+userRouter.get("/users/:id", authMiddleware, adminMiddleware, getAllById);
+userRouter.post(
+  "/users",
+  authMiddleware,
+  adminMiddleware,
+  createUserValidations,
+  validate,
+  createUser,
+);
+userRouter.put(
+  "/users/:id",
+  authMiddleware,
+  adminMiddleware,
+  updateUserValidations,
+  validate,
+  updateUser,
+);
+userRouter.delete(
+  "/users/:id",
+  authMiddleware,
+  adminMiddleware,
+  deleteUserValidations,
+  validate,
+  deletUser,
+);
