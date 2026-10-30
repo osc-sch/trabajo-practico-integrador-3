@@ -6,6 +6,7 @@ import { connectDB } from "./src/config/database.js";
 import { userRouter } from "./src/routes/user.routes.js";
 import { eventRouter } from "./src/routes/event.routes.js";
 import { categoryRouter } from "./src/routes/category.routes.js";
+import { authRoutes } from "./src/routes/auth.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3005;
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use("/api", userRouter);
 app.use("/api", eventRouter);
 app.use("/api", categoryRouter);
+app.use("/api", authRoutes);
 
 app.listen(PORT, async () => {
   await connectDB();
