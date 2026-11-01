@@ -66,3 +66,43 @@ export const logout = (req, res) => {
   res.clearCookie("token");
   return res.status(201).json({ msg: "logout exitoso" });
 };
+
+export const getUserProfile = async (req, res) => {
+  try {
+    const { user_id } = req.user;
+
+    const userProfile = await UserModel.findOne({ _id: user_id });
+
+    return res.status(201).json({ userProfile });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Error interno en el servidor" });
+  }
+};
+
+export const updateUserProfile = async (req, res) => {
+  try {
+    const { user_id } = req.user;
+    const dataValida = matchedData(req, { locations: ["body"] });
+
+    const userExist = await UserModel.findOne({ _id: user_id });
+
+    const newProfile = {
+      ...userExist.profile,
+      ...dataValida.profile,
+    };
+
+    const userUpdated = await UserModel.findByIdAndUpdate(
+      { _id: user_id },
+      { $set: { profile: newProfile } },
+      { returnDocument: "after" },
+    );
+
+    return res
+      .status(200)
+      .json({ msg: "El usuario fue editado exitozamente", userUpdated });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Error interno en el servidor" });
+  }
+};

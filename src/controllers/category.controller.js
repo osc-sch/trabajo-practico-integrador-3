@@ -1,5 +1,6 @@
 import { matchedData } from "express-validator";
 import { CategoryModel } from "../models/category.model.js";
+import { EventModel } from "../models/event.model.js";
 
 export const createCategory = async (req, res) => {
   try {
@@ -27,7 +28,7 @@ export const getAllCategory = async (req, res) => {
 
 export const getCategoryById = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     const category = await CategoryModel.find({ _id: id });
 
     return res.status(200).json({ category });
@@ -39,7 +40,7 @@ export const getCategoryById = async (req, res) => {
 
 export const updateCategory = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     const dataValida = matchedData(req, { locations: ["body"] });
     const updatedCategory = await CategoryModel.findByIdAndUpdate(
       { _id: id },
@@ -60,7 +61,13 @@ export const updateCategory = async (req, res) => {
 
 export const deleteCategory = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
+
+    await EventModel.updateMany(
+      { categories: id },
+      { $pull: { categories: id } },
+    );
+
     const category = await CategoryModel.findByIdAndDelete(
       { _id: id },
       { returnDocument: true },

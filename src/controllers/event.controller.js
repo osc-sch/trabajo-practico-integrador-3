@@ -34,6 +34,17 @@ export const getEventById = async (req, res) => {
   }
 };
 
+export const getUserEvents = async (req, res) => {
+  try {
+    const { user_id } = req.user;
+    const events = await EventModel.find({ organizer: user_id });
+    return res.status(200).json(events);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Error interno en el servidor" });
+  }
+};
+
 export const updateEvent = async (req, res) => {
   try {
     const { id } = req.params;

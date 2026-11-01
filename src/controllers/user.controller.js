@@ -1,6 +1,7 @@
 import { matchedData } from "express-validator";
 import { UserModel } from "../models/user.model.js";
 import { hashPassword } from "../helpers/bcrypt.helper.js";
+import { EventModel } from "../models/event.model.js";
 
 export const createUser = async (req, res) => {
   try {
@@ -57,16 +58,9 @@ export const updateUser = async (req, res) => {
     const { id } = matchedData(req, { locations: ["params"] });
     const dataValida = matchedData(req, { locations: ["body"] });
 
-    const userExist = await UserModel.findOne({ _id: id });
-
-    const newProfile = {
-      ...userExist.profile,
-      ...dataValida.profile,
-    };
-
     const userUpdated = await UserModel.findByIdAndUpdate(
       { _id: id },
-      { $set: { profile: newProfile } },
+      { $set: { ...dataValida } },
       { returnDocument: "after" },
     );
 
@@ -82,6 +76,8 @@ export const updateUser = async (req, res) => {
 export const deletUser = async (req, res) => {
   try {
     const { id } = matchedData(req, { locations: ["params"] });
+
+    await EventModel.deleteMany({ organizer: id });
 
     const userUpdated = await UserModel.findByIdAndUpdate(
       { _id: id },

@@ -1,5 +1,6 @@
 import { body } from "express-validator";
 import { EventModel } from "../../models/event.model.js";
+import { CategoryModel } from "../../models/category.model.js";
 
 export const createEventValidation = [
   body("title")

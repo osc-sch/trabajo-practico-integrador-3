@@ -9,13 +9,35 @@ import {
   deleteEvent,
   getAllEvent,
   getEventById,
+  getUserEvents,
   updateEvent,
 } from "../controllers/event.controller.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { ownerOrAdminMiddleware } from "../middlewares/ownerOrAdmin.middleware.js";
 
 export const eventRouter = Router();
 
-eventRouter.get("/event", getAllEvent);
-eventRouter.get("/event/:id", getEventById);
-eventRouter.post("/event", createEventValidation, validate, createEvent);
-eventRouter.put("/event/:id", updateEventValidations, validate, updateEvent);
-eventRouter.delete("/event/:id", deleteEvent);
+eventRouter.get("/events", authMiddleware, getAllEvent);
+eventRouter.get("/events/my", authMiddleware, getUserEvents);
+eventRouter.get("/events/:id", authMiddleware, getEventById);
+eventRouter.post(
+  "/events",
+  authMiddleware,
+  createEventValidation,
+  validate,
+  createEvent,
+);
+eventRouter.put(
+  "/event/:id",
+  authMiddleware,
+  ownerOrAdminMiddleware,
+  updateEventValidations,
+  validate,
+  updateEvent,
+);
+eventRouter.delete(
+  "/event/:id",
+  authMiddleware,
+  ownerOrAdminMiddleware,
+  deleteEvent,
+);
