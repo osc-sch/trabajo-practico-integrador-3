@@ -15,7 +15,7 @@ export const createEvent = async (req, res) => {
 
 export const getAllEvent = async (req, res) => {
   try {
-    const events = await EventModel.find();
+    const events = await EventModel.find().populate("categories", "-_id");
     return res.status(200).json(events);
   } catch (error) {
     console.log(error);

@@ -29,7 +29,9 @@ export const getAllUsers = async (req, res) => {
   try {
     const users = await UserModel.find({
       deleteAt: null,
-    });
+    })
+      .populate("events")
+      .select("-password");
     return res.status(200).json(users);
   } catch (error) {
     console.log(error);

@@ -60,4 +60,13 @@ const userSchema = new Schema(
   },
 );
 
+userSchema.set("toJSON", { virtuals: true });
+userSchema.set("toObject", { virtuals: true });
+
+userSchema.virtual("events", {
+  ref: "Event",
+  localField: "_id",
+  foreignField: "organizer",
+});
+
 export const UserModel = model("User", userSchema);
