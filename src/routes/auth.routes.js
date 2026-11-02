@@ -9,6 +9,7 @@ import {
   login,
   logout,
   register,
+  updateUserProfile,
 } from "../controllers/auth.controller.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 
@@ -16,5 +17,6 @@ export const authRoutes = Router();
 
 authRoutes.post("/auth/register", registerValidations, validate, register);
 authRoutes.post("/auth/login", loginValidations, validate, login);
-authRoutes.get("/auth/logout", authMiddleware, logout);
+authRoutes.post("/auth/logout", authMiddleware, logout);
 authRoutes.get("/auth/profile", authMiddleware, getUserProfile);
+authRoutes.put("/auth/profile", authMiddleware, updateUserProfile);

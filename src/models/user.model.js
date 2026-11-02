@@ -49,7 +49,7 @@ const userSchema = new Schema(
       },
       phone: { type: String, required: false },
     },
-    deleteAt: {
+    deletedAt: {
       type: Date,
       default: null,
     },

@@ -42,11 +42,6 @@ export const createEventValidation = [
     .optional()
     .isIn(["scheduled", "cancelled", "finished"])
     .withMessage("El estado debe ser 'scheduled', 'cancelled' o 'finished'"),
-  body("organizer")
-    .notEmpty()
-    .withMessage("El organizador es obligatorio")
-    .isMongoId()
-    .withMessage("El organizador debe ser un ID de Mongo válido"),
   body("categories")
     .optional()
     .isArray({ min: 1 })
@@ -120,10 +115,6 @@ export const updateEventValidations = [
     .optional()
     .isIn(["scheduled", "cancelled", "finished"])
     .withMessage("El estado debe ser 'scheduled', 'cancelled' o 'finished'"),
-  body("organizer")
-    .optional()
-    .isMongoId()
-    .withMessage("El organizador debe ser un ID de Mongo válido"),
   body("categories")
     .optional()
     .isArray({ min: 1 })

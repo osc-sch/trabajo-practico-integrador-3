@@ -29,7 +29,7 @@ export const createUser = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const users = await UserModel.find({
-      deleteAt: null,
+      deletedAt: null,
     })
       .populate("events")
       .select("-password");
@@ -45,7 +45,10 @@ export const getAllById = async (req, res) => {
     const { id } = req.params;
     const users = await UserModel.find({
       _id: id,
-    });
+    })
+      .populate("events")
+      .select("-password");
+
     return res.status(200).json(users);
   } catch (error) {
     console.log(error);
@@ -81,7 +84,7 @@ export const deletUser = async (req, res) => {
 
     const userUpdated = await UserModel.findByIdAndUpdate(
       { _id: id },
-      { $set: { deleteAt: new Date() } },
+      { $set: { deletedAt: new Date() } },
       { returnDocument: "after" },
     );
 

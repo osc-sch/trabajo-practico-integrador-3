@@ -10,8 +10,6 @@ export const authMiddleware = (req, res, next) => {
 
     const payload = verifyToken(token);
 
-    console.log(payload);
-
     req.user = payload;
     next();
   } catch (error) {

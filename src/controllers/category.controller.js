@@ -29,7 +29,7 @@ export const getAllCategory = async (req, res) => {
 export const getCategoryById = async (req, res) => {
   try {
     const { id } = req.params;
-    const category = await CategoryModel.find({ _id: id });
+    const category = await CategoryModel.find({ _id: id }).populate("events");
 
     return res.status(200).json({ category });
   } catch (error) {

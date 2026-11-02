@@ -28,7 +28,10 @@ export const ownerOrAdminMiddleware = async (req, res, next) => {
     }
 
     //verifica que sea admin o el organizador del evento
-    if (role !== "admin" && existEvent.organizer !== user_id) {
+    if (
+      role !== "admin" &&
+      String(existEvent.organizer) !== String(user_id)
+    ) {
       return res.status(403).json({ message: "usuario no autorizado" });
     }
     next();

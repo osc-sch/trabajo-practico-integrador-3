@@ -16,10 +16,10 @@ import { adminMiddleware } from "../middlewares/admin.middleware.js";
 
 export const categoryRouter = Router();
 
-categoryRouter.get("/category", authMiddleware, getAllCategory);
-categoryRouter.get("/category/:id", authMiddleware, getCategoryById);
+categoryRouter.get("/categories", authMiddleware, getAllCategory);
+categoryRouter.get("/categories/:id", authMiddleware, getCategoryById);
 categoryRouter.post(
-  "/category",
+  "/categories",
   authMiddleware,
   adminMiddleware,
   createCategoryValidations,
@@ -27,7 +27,7 @@ categoryRouter.post(
   createCategory,
 );
 categoryRouter.put(
-  "/category/:id",
+  "/categories/:id",
   authMiddleware,
   adminMiddleware,
   updateCategoryValidations,
@@ -35,7 +35,7 @@ categoryRouter.put(
   updateCategory,
 );
 categoryRouter.delete(
-  "/category/:id",
+  "/categories/:id",
   authMiddleware,
   adminMiddleware,
   deleteCategory,

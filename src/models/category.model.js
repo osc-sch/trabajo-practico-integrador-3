@@ -24,7 +24,7 @@ const categorySchema = new Schema(
 categorySchema.set("toJSON", { virtuals: true });
 categorySchema.set("toObject", { virtuals: true });
 
-categorySchema.virtual("categories", {
+categorySchema.virtual("events", {
   ref: "Event",
   localField: "_id",
   foreignField: "categories",

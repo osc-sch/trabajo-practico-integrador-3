@@ -28,7 +28,7 @@ eventRouter.post(
   createEvent,
 );
 eventRouter.put(
-  "/event/:id",
+  "/events/:id",
   authMiddleware,
   ownerOrAdminMiddleware,
   updateEventValidations,
@@ -36,7 +36,7 @@ eventRouter.put(
   updateEvent,
 );
 eventRouter.delete(
-  "/event/:id",
+  "/events/:id",
   authMiddleware,
   ownerOrAdminMiddleware,
   deleteEvent,
